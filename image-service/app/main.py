@@ -125,13 +125,13 @@ def get_group_icon(image_id):
 # get_group_icon(2)
 
 @app.get('/{id}')
-async def index(id: int):
+def index(id: int):
     #get_group_icon(1)
     #return {"Real": "Python"}
     return get_group_icon(id)
 
 @app.post('/', status_code=201)
-async def add_image():
+def add_image():
     # movie = payload.dict()
     # fake_movie_db.append(movie)
     #return {'id': len(fake_movie_db) - 1}
