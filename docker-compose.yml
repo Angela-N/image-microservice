@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  image-service:
+    build: ./image-service
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./image-service/:/app/
+    ports:
+      - 8003:8000
+    environment:
+      - IMAGE_SERVICE_HOST_URL=http://image-service:8000/image
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8084:80"
+    volumes:
+      - ./nginx_config.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - image-service
