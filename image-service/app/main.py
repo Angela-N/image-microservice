@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from os import listdir
-from PIL import Image as PImage
+#from PIL import Image as PImage
 
 import sqlite3
 
