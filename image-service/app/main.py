@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from os import listdir
 #from PIL import Image as PImage
-
+import tkinter.filedialog
+from tkinter.filedialog import askopenfilename
 import sqlite3
 
 app = FastAPI(openapi_url="/images/openapi.json", docs_url="/images/docs")
@@ -84,8 +85,6 @@ def writeTofile(data, filename):
         file.write(data)
     print("Stored blob data into: ", filename, "\n")
 
-# def get_group_icon(self, image_id):
-#     """Return a group icon given its unique ID."""
 
 def get_group_icon(image_id):
     try:
@@ -115,25 +114,56 @@ def get_group_icon(image_id):
             print("sqlite connection is closed")
     return returnValue
 
-# add_group_icon(1, "postImg", "im1.png")
-#add_group_icon(2, "postImg2", "im2.png")
+def selectPhoto():
+    filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+    print(filename)
+    return filename
 
-# # add_group_icon("Smith", "source.png")
-# # add_group_icon( "David", "less.png")
 
-# get_group_icon(1)
-# get_group_icon(2)
+def index_availabilty(image_id):
+    try:
+        sqliteConnection = sqlite3.connect('images.db')
+        cursor = sqliteConnection.cursor()
+        #print("Connected to SQLite")
+        sql_fetch_blob_query = """SELECT * from images_table where id = ?"""
+        cursor.execute(sql_fetch_blob_query, (image_id,))
+        record = cursor.fetchall()
+        if record:
+            available = False
+        else:
+            available = True
+        cursor.close()
+    except sqlite3.Error as error:
+        print("Failed to read blob data from sqlite table", error)
+    finally:
+        if (sqliteConnection):
+            sqliteConnection.close()
+            print("sqlite connection is closed")
+    return available
+
 
 @app.get('/{id}')
-def index(id: int):
+async def get_image(id: int):
     #get_group_icon(1)
     #return {"Real": "Python"}
     return get_group_icon(id)
 
+
 @app.post('/', status_code=201)
-def add_image():
-    # movie = payload.dict()
-    # fake_movie_db.append(movie)
-    #return {'id': len(fake_movie_db) - 1}
-    return add_group_icon(4, "postImg4", "im2.png")
+async def add_image():
+    index = 0
+    while(index_availabilty(index) == False):
+        index+=1
+    photo = selectPhoto()
+    image_name = "img" + str(index)
+    add_group_icon(index, image_name , photo)
+    print("current index is: ", index)
+    return index
+
+# @app.patch('/{id}/')
+# async def update_image(id: int):
     
+
+
+# @app.delete('/{id}/')
+# async def delete_image(id: int):
