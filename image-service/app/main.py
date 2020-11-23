@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from os import listdir
-#from PIL import Image as PImage
+from PIL import Image
 import tkinter.filedialog
 from tkinter.filedialog import askopenfilename
 import sqlite3
@@ -104,6 +104,11 @@ def get_group_icon(image_id):
             photoPath = "" + name + ".jpg"
             returnValue = photoPath
             writeTofile(photo, photoPath)
+            #read the image
+            im = Image.open(photoPath)
+
+            #show image
+            im.show()
         cursor.close()
     except sqlite3.Error as error:
         print("Failed to read blob data from sqlite table", error)
