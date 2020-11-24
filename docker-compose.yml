@@ -6,6 +6,8 @@ services:
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
     volumes:
       - ./image-service/:/app/
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
     ports:
       - 8000:8000
   nginx:
