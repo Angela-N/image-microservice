@@ -6,13 +6,9 @@ COPY ./requirements.txt /app/requirements.txt
 
 RUN apt-get update \
     && apt-get install gcc -y \
-    && apt-get clean \
-    && apt-get install tk
+    && apt-get clean
 
-RUN pip install -r /app/requirements.txt \
+RUN pip3 install -r /app/requirements.txt \
     && rm -rf /root/.cache/pip
-
-RUN pip3 install Pillow
-
 
 COPY . /app/
