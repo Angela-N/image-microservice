@@ -8,7 +8,7 @@ Navigate into the local subfolder and run the uvicorn command.
 Get the url link and run it in POSTMAN. 
  - POST Method - http://127.0.0.1:8000
  - GET  Method - http://127.0.0.1:8000/{id}
- Use the image id of an image that was already posted.
+ (Use the image id of an image that was already posted.)
 
 # Different Endpoints:
 The api has 2 endpoints:
