@@ -14,5 +14,5 @@ Get the url link and run it in POSTMAN.
 The api has 2 endpoints:
 Post Method:
  - http://127.0.0.1:8000
-Get Method:
+Get  Method:
  - http://127.0.0.1:8000/{id}
